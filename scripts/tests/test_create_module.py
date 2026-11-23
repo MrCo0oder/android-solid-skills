@@ -249,5 +249,24 @@ class CreateModuleTest(unittest.TestCase):
         self.assertFalse((self.root / "data").exists())
 
 
+
+    def test_installed_skill_can_generate_without_repository_helpers(self):
+        import shutil
+
+        installed = self.root / "installed-skill"
+        source = SCRIPT.parent.parent / "skills/solid"
+        shutil.copytree(source, installed)
+        result = subprocess.run(
+            [sys.executable, str(installed / "scripts/create_module.py"),
+             "feature", "checkout", "--package", "example.shop.checkout",
+             "--root", str(self.root)],
+            cwd=self.root, capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertTrue((self.root / "feature/checkout/build.gradle.kts").is_file())
+        self.assertTrue((installed / "references/module-generator.md").is_file())
+        self.assertIn(b'include(":feature:checkout")', self.settings.read_bytes())
+
+
 if __name__ == "__main__":
     unittest.main()

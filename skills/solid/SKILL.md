@@ -163,6 +163,8 @@ See: [references/complexity.md](references/complexity.md)
 
 See: [references/architecture.md](references/architecture.md)
 
+For a request to scaffold feature/data modules, read [the generator guide](references/module-generator.md). Run the bundled `scripts/create_module.py` relative to this skill directory with an explicit target `--root` and `--package`. Preview with `--dry-run` first. The templates use the documented Gradle conventions; confirm they match the target project before generation.
+
 **Android application:**
 - Read existing code, contracts, DI, navigation, and build variants before changing them; preserve unrelated behavior and edits.
 - Keep UI rendering separate from screen business logic and data access. Use ViewModels for screen state and repositories for data boundaries.
